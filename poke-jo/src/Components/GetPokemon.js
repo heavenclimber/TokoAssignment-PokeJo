@@ -3,6 +3,10 @@ import { useQuery, gql } from '@apollo/client'
 import { LOAD_POKEMONS } from '../GraphQl/Queries'
 import { Waypoint } from 'react-waypoint'
 import {Link} from 'react-router-dom'
+import Skeleton from './skeleton'
+import ToTop from './ToTop'
+import pokeballbg from '../img/pokeball-bg.png'
+
 
 export default function GetPokemon() {
 
@@ -30,6 +34,7 @@ export default function GetPokemon() {
 
     return (
         <div className="pokemon-flex">
+            <ToTop/>
             {pokemons.map((val, i) => {
                 i = i++;
                 var index = i + 1
@@ -41,7 +46,7 @@ export default function GetPokemon() {
                 }
                 return (
                         <Link key={index} to={"/pokedetail/"+val.name} className="pokemon-box" >
-                            <img className='bouncepoke' src={val.image} />
+                            <img style={{ backgroundImage: `url(${pokeballbg})` }} className='bouncepoke' src={val.image} />
                             <p className="pokemon-name"><small>#{index} </small> {val.name}</p>
                             
                             {val.next !== null && i === pokemons.length-1 ?

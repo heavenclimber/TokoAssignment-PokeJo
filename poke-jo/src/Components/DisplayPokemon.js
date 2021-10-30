@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { LOAD_POKEMONS_DETAIL } from '../GraphQl/Queries'
 import Skeleton from './skeleton'
+import pokeballbg from '../img/pokeball-bg.png'
 
 export default function DisplayPokemon() {
 
-    
+
     let currLink = window.location.pathname.split("/");
-    const currPoke= currLink[2];
+    const currPoke = currLink[2];
 
     const gqlVariablesDetail = {
         name: currPoke,
@@ -17,14 +18,35 @@ export default function DisplayPokemon() {
         variables: gqlVariablesDetail
     });
 
+
+
     const [pokemon, setPokemonsDetail] = useState([])
 
+    const [pokeapidetail, setPokeApiDetail] = useState([])
+
+
+    let pokeApi = 'https://pokeapi.co/api/v2/pokemon/';
+
+
     useEffect(() => {
+
         if (loading) {
             return <div>Loading..</div>
         }
         if (data) {
             setPokemonsDetail(data.pokemon)
+            pokeApi = pokeApi + data.pokemon.id
+
+            const fetchDataApi = async () => {
+                const res = await fetch(
+                    pokeApi,
+                );
+                const json = await res.json();
+
+                setPokeApiDetail(json)
+            };
+            fetchDataApi();
+
         }
     }, [data]);
 
@@ -45,11 +67,64 @@ export default function DisplayPokemon() {
 
     const GetTypes = () => (
         <div>
-            
             <div className="typesdetail">
                 {pokemon.types.map((val, i) => {
+                    let colortype = 'black'
+                    if (val.type.name === 'bug') {
+                        colortype = '#A8B820'
+                    }
+                    else if (val.type.name === 'dark') {
+                        colortype = '#705848'
+                    }
+                    else if (val.type.name === 'dragon') {
+                        colortype = '#7038F8'
+                    }
+                    else if (val.type.name === 'electric') {
+                        colortype = '#F8D030'
+                    }
+                    else if (val.type.name === 'fairy') {
+                        colortype = '#EE99AC'
+                    }
+                    else if (val.type.name === 'fire') {
+                        colortype = '#F08030'
+                    }
+                    else if (val.type.name === 'flying') {
+                        colortype = '#A890F0'
+                    }
+                    else if (val.type.name === 'ghost') {
+                        colortype = '#705898'
+                    }
+                    else if (val.type.name === 'grass') {
+                        colortype = '#78C850'
+                    }
+                    else if (val.type.name === 'ground') {
+                        colortype = '#E0C068'
+                    }
+                    else if (val.type.name === 'ice') {
+                        colortype = '#98D8D8'
+                    }
+                    else if (val.type.name === 'normal') {
+                        colortype = '#A8A878'
+                    }
+                    else if (val.type.name === 'poison') {
+                        colortype = '#A040A0'
+                    }
+                    else if (val.type.name === 'psychic') {
+                        colortype = '#F85888'
+                    }
+                    else if (val.type.name === 'rock') {
+                        colortype = '#B8A038'
+                    }
+                    else if (val.type.name === 'steel') {
+                        colortype = '#B8B8D0'
+                    }
+                    else if (val.type.name === 'water') {
+                        colortype = '#6890F0'
+                    }
                     return (
-                        <div  key={i}>
+                        <div style={{
+                            backgroundColor: colortype
+                        }} key={i}>
                             {val.type.name}
                         </div>
                     )
@@ -58,11 +133,31 @@ export default function DisplayPokemon() {
             </div>
         </div>
     )
+    const GetInfo = () => (
+        <div>
+            <div className="infodetail">
+                <p><b>Weight: </b>{pokeapidetail.weight} lbs</p>
+                <p><b>Height: </b> {pokeapidetail.height}"</p>
+
+            </div>
+        </div>
+    )
+
+    const GetSprites = () => (
+        <div className="detailSpriteContainer">
+            <div className="detailSprite">
+                <img style={{ backgroundImage: `url(${pokeballbg})` }} srcSet={pokeapidetail.sprites.front_default} />
+            </div>
+            <h2>{pokemon.name}</h2>
+            
+        </div>
+    )
 
     return (
         <div className='detailFlex'>
-            <h2>Type</h2>
+            {pokeapidetail.sprites ? <GetSprites /> : <Skeleton skeleclass='typesdetail skele' />}
             {pokemon.types ? <GetTypes /> : <Skeleton skeleclass='typesdetail skele' />}
+            {pokeapidetail.weight ? <GetInfo /> : <Skeleton skeleclass='typesdetail skele' />}
             <h2>Moves</h2>
             {pokemon.moves ? <GetMoves /> : <Skeleton skeleclass='movesdetail skele' />}
 

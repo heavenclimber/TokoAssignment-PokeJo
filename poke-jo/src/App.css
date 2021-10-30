@@ -1,15 +1,90 @@
 
 body{
   background-color: rgb(202, 223, 226);
+  font-family: 'Montserrat', sans-serif;
 }
 .App {
   text-align: center;
+}
+
+h2{
+  text-transform: capitalize;
+}
+
+div{
+  font-weight: 300;
+  color: #393E46;
+}
+
+
+p{
+  color: #393E46;
 }
 
 .container{
   padding-top: 30px;
   padding-bottom: 30px;
   background-color: rgb(202, 223, 226);
+}
+
+.content{
+  margin-top: 70px;
+}
+
+#topbutton {
+  display: inline-block;
+  background-color: #51C4D3;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color .3s, opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+
+#topbutton::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.5em;
+  line-height: 50px;
+  color: #fff;
+}
+
+#topbutton:hover {
+  cursor: pointer;
+  background-color: #126E82;
+}
+
+#topbutton:active {
+  background-color: #132C33;
+}
+
+#topbutton.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar{
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  padding-left: 30px;
+  top: 0;
+  z-index: 1;
+  -webkit-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.56);
+-moz-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.56);
+box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.56);
+}
+
+.navbar h2{
+  color: #393E46;
 }
 
 a:link{
@@ -78,14 +153,13 @@ a:link{
   font-weight: 500;
   margin-top: 10px;
   margin-bottom: 10px;
-  color: black;
 }
 
 
 
 
 .detailFlex{
- width: 95%;
+ width: 90%;
  max-width: 1200px;
  margin: auto;
 }
@@ -94,18 +168,18 @@ a:link{
   display: flex;
   padding-top: 5px;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .typesdetail div{
-  border-radius: 5px;
-  padding: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-transform: capitalize;
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(145,145,145,0.55);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(145,145,145,0.55);
-  box-shadow: 0px 0px 5px 0px rgba(145,145,145,0.55);
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: white;
+  text-transform: uppercase;
 }
 
 .movesdetail{
@@ -125,6 +199,22 @@ a:link{
   -moz-box-shadow: 0px 0px 5px 0px rgba(145,145,145,0.55);
   box-shadow: 0px 0px 5px 0px rgba(145,145,145,0.55); */
 }
+
+.infodetail{
+ border: 1px solid #00ADB5;
+ text-align: center;
+  margin: 0;
+  padding: 0;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* @media(min-width:670px){
+  .infodetail{
+    width: 50%;
+   }
+} */
+
 
 .skele{
   background-color: rgb(230, 239, 240);
@@ -163,7 +253,35 @@ a:link{
 .bounce { 
   animation: 0.4s bounce infinite;
  }
+ .bouncepoke { 
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+ }
 
 .bouncepoke:hover { 
  animation: 0.4s bounce 1;
+}
+
+.detailSpriteContainer{
+  text-align: center;
+}
+
+.detailSpriteContainer h2{
+ margin: 0;
+ margin-top: 10px;
+ font-weight: 700;
+ font-size: 30px;
+ 
+}
+.detailSprite{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailSprite img{
+  width: 70%;
+  max-width: 200px;
+  background-size: contain;
 }

@@ -3,6 +3,7 @@ import './App.css';
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import Nav from './Components/Nav';
+import { Link } from 'react-router-dom'
 
 
 const errorLink = onError(({ graphqlErrors, networkErrors }) => {
@@ -30,7 +31,8 @@ function App() {
     <ApolloProvider client={client}>
       {" "}
       <div className="container">
-        <div>
+      
+        <div className='content'>
           <Nav />
         </div>
       </div>
