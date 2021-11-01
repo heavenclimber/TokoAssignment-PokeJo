@@ -659,3 +659,17 @@ table.statContainer {
 .releaseButton:focus{
   background-color: rgb(173, 21, 21);
 }
+
+
+
+.releaseModalButtons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.releaseModalButton{
+  background-color: red !important;
+  border: red !important;
+}

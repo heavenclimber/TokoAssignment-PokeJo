@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { LOAD_POKEMONS } from '../GraphQl/Queries'
 import { Waypoint } from 'react-waypoint'
 import {Link} from 'react-router-dom'
-import Skeleton from './skeleton'
 import ToTop from './ToTop'
 import pokeballbg from '../img/pokeball-bg.png'
 

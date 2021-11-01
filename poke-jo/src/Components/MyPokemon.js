@@ -11,6 +11,7 @@ export default function MyPokemon() {
     const [pokemons, setPokemons] = useState([])
     const [releaseModal, setReleaseModal] = useState(false)
     const [currPoke, setCurrPoke] = useState([])
+    const [indexPoke, setIndexPoke] = useState()
 
 
     useEffect(() => {
@@ -23,25 +24,27 @@ export default function MyPokemon() {
 
 
     const DeletePoke = (val, i) => {
-        console.log(i)
+        setIndexPoke(i)
         setCurrPoke(val)
-        return (
-            <div className='catchModalContainer'>
-                <div className='catchModal'>
-
-                </div>
-            </div>
-        )
-
     }
-    console.log(currPoke)
+    const DeletePokeFinal = () => {
+        console.log('deleted')
+        const pokeSend =pokemons.splice(indexPoke,1)
+        setReleaseModal(false)
+        localStorage.setItem('MyPokemon', JSON.stringify(pokemons))
+    }
+
 
     const ReleasePokemon = () => {
         return (
             <div className='catchModalContainer'>
                 <div className='catchModal'>
                     <div className='caughtInfo'>
-                    <p>Are you sure you want to release <span>{currPoke.name}</span>?</p>
+                        <p>Are you sure you want to release <span>{currPoke.name}</span>?</p>
+                        <div className='releaseModalButtons'>
+                            <button onClick={()=>setReleaseModal(false)}>CANCEL</button>
+                            <button onClick={()=>{DeletePokeFinal()}} className='releaseModalButton' >RELEASE</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,6 +69,12 @@ export default function MyPokemon() {
         </div>
     )
 
+    const DisplayPokeCheck = () => (
+        <div>
+            {pokemons.length===0 ? <NoPoke/> : <DisplayPoke/>}
+        </div>
+    )
+
     const NoPoke = () => (
         <div className='noPokemonContainer'>
             <div className='noPokemon'>
@@ -82,7 +91,7 @@ export default function MyPokemon() {
                 <h2>My Pokemon</h2>
             </div>
 
-            {pokemons ? <DisplayPoke /> : <NoPoke />}
+            {pokemons ? <DisplayPokeCheck /> : <NoPoke />}
             {releaseModal && <ReleasePokemon />}
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import SuccessCaught from './SuccessCaught'
 import FailedCaught from './FailedCaught'
 export default function CatchModal({ name, data, closeModal }) {
@@ -6,10 +6,7 @@ export default function CatchModal({ name, data, closeModal }) {
 
     const [pokeThrow, setThrow] = useState(true)
     const [modalShow, setModal] = useState(false)
-    const [nick, setNickname] = useState([])
-    const [poke, setPoke] = useState([])
 
-    // const [caught, isCaught] = useState(false)
     const caught = Math.random() < 0.5
     setTimeout(() => {
         setThrow(false);
