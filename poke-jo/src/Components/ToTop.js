@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function ToTop() {
+
+    const [scroll, setScroll] = useState(false);
+    useEffect(() => {
+        window.addEventListener("scroll", () => {
+            setScroll(window.scrollY > 50);
+        });
+    }, []);
+
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -9,7 +17,7 @@ export default function ToTop() {
     };
 
     return (
-        <a onClick={scrollToTop} id="topbutton"></a>
+        <a onClick={scrollToTop} className={scroll ? "show" : null} id="topbutton"></a>
     )
 }
 

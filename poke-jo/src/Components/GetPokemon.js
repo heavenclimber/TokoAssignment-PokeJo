@@ -32,6 +32,10 @@ export default function GetPokemon() {
         
     }, [data]);
 
+
+
+  
+
     return (
         <div className="pokemon-flex">
             <ToTop/>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { LOAD_POKEMONS_DETAIL } from '../GraphQl/Queries'
 import Skeleton from './skeleton'
 import pokeballbg from '../img/pokeball-bg.png'
+import CatchModal from './CatchModal'
+import CatchBar from './CatchBar'
 
 export default function DisplayPokemon() {
 
@@ -21,8 +23,9 @@ export default function DisplayPokemon() {
 
 
     const [pokemon, setPokemonsDetail] = useState([])
-
     const [pokeapidetail, setPokeApiDetail] = useState([])
+    const [openModal, setOpenModal] = useState(false)
+    
 
 
     let pokeApi = 'https://pokeapi.co/api/v2/pokemon/';
@@ -49,6 +52,7 @@ export default function DisplayPokemon() {
 
         }
     }, [data]);
+    
 
     const GetMoves = () => (
         <div>
@@ -84,6 +88,9 @@ export default function DisplayPokemon() {
                     }
                     else if (val.type.name === 'fairy') {
                         colortype = '#EE99AC'
+                    }
+                    else if (val.type.name === 'fighting') {
+                        colortype = '#C03028'
                     }
                     else if (val.type.name === 'fire') {
                         colortype = '#F08030'
@@ -133,11 +140,41 @@ export default function DisplayPokemon() {
             </div>
         </div>
     )
+
+    const GetStats = () => (
+        <table className='statContainer'>
+            <tbody>
+                {pokeapidetail.stats.map((val, i) => {
+                    return (
+                        <tr key={i}>
+                            <td>{val.stat.name}</td>
+                            <td><b>{val.base_stat}</b></td>
+                        </tr>
+                    )
+                })}
+            </tbody>
+
+        </table>
+    )
+
     const GetInfo = () => (
-        <div>
+        <div className='infodetailContainer'>
             <div className="infodetail">
-                <p><b>Weight: </b>{pokeapidetail.weight} lbs</p>
-                <p><b>Height: </b> {pokeapidetail.height}"</p>
+                <div style={{ display: 'flex', gap: '20px' }}>
+                    <p><b>Weight: </b>{pokeapidetail.weight/10} kg</p>
+                    <p><b>Height: </b> {pokeapidetail.height/10}m</p>
+                </div>
+                <p className='abilitiesTitle'><b>Abilities: </b></p>
+                <div className='abilities'>
+                    {pokeapidetail.abilities.map((val, i) => {
+
+                        return (
+                            <div className='abilitiesName' key={i}>
+                                {val.ability.name}
+                            </div>
+                        )
+                    })}
+                </div>
 
             </div>
         </div>
@@ -149,18 +186,23 @@ export default function DisplayPokemon() {
                 <img style={{ backgroundImage: `url(${pokeballbg})` }} srcSet={pokeapidetail.sprites.front_default} />
             </div>
             <h2>{pokemon.name}</h2>
-            
         </div>
     )
 
     return (
-        <div className='detailFlex'>
-            {pokeapidetail.sprites ? <GetSprites /> : <Skeleton skeleclass='typesdetail skele' />}
-            {pokemon.types ? <GetTypes /> : <Skeleton skeleclass='typesdetail skele' />}
-            {pokeapidetail.weight ? <GetInfo /> : <Skeleton skeleclass='typesdetail skele' />}
-            <h2>Moves</h2>
-            {pokemon.moves ? <GetMoves /> : <Skeleton skeleclass='movesdetail skele' />}
-
+        <div>
+            <div className='detailFlex'>
+                {pokeapidetail.sprites ? <GetSprites /> : <Skeleton skeleclass='typesdetail skele' />}
+                {pokemon.types ? <GetTypes /> : <Skeleton skeleclass='typesdetail skele' />}
+                <div className='infonstats'>
+                    {pokeapidetail.weight ? <GetInfo /> : <Skeleton skeleclass='typesdetail skele' />}
+                    {pokeapidetail.stats ? <GetStats /> : <Skeleton skeleclass='typesdetail skele' />}
+                </div>
+                <h2>Moves</h2>
+                {pokemon.moves ? <GetMoves /> : <Skeleton skeleclass='movesdetail skele' />}
+                <CatchBar  openModal={setOpenModal} />
+            </div>
+            {openModal && <CatchModal name={pokemon.name} data={pokeapidetail} closeModal={setOpenModal} />}
         </div>
     )
 }
